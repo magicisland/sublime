@@ -52,15 +52,23 @@ public class Service {
 	@GET
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Pojo getProduct(@PathParam("id")int id) {
+	public Response getProduct(@PathParam("id")int id) {
 		// TODO Auto-generated method stub
-		
+
 		Pojo pojo = new Pojo();
-		pojo.setId(1);
-		pojo.setName("Marcelo");
-		return pojo;
+		pojo.setId(id);
+		pojo.setName("Marcelo Rodriguez - Software Engineer ");
 		
-			
+		Gson gson = new Gson();
+		String entity = gson.toJson(pojo);
+		
+		ResponseBuilder responseBuilder = Response.ok(entity);
+		responseBuilder.header("Content-Type", "application/json");
+		responseBuilder.entity(entity);
+		
+		Response response = responseBuilder.build();
+		return response;
+		
 	}
 
 }
