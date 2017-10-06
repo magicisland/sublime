@@ -50,9 +50,8 @@ public class HibernateUtils {
 	 	SQLQuery query= session.createSQLQuery(sql);
 		response = query.list();
 		
+		commit();
 		return response;
-		
-		
 		
 	}
 }

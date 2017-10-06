@@ -20,16 +20,18 @@ public class LoadTest {
 			hbUtils.save(track);
 		}
 		
-		List<Object[]> query = hbUtils.get("select * from Track where trackId=2");
+		List<Object[]> query = hbUtils.get("select * from Track where id=2");
 	
 		for (Object[] o:query){
 			Track t=new Track();
-			t.settrackId((int)o[0]);
+			t.setId((int)o[0]);
 			t.setName((String)o[1]);
 			t.setDetalle((String)o[2]);
 			System.out.println(t);
 			
 		}
+		
+		
 	}
 
 }

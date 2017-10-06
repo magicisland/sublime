@@ -5,6 +5,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -15,6 +16,12 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
 
 import com.google.gson.Gson;
 
@@ -54,24 +61,35 @@ public class Service {
 	}
 
 	@GET
-	@Path("/table/{id}")
+	@Path("/{table}-{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getProduct(@PathParam("table") String table,@PathParam("id")int id) {
 		// TODO Auto-generated method stub
 
-		HibernateUtils hbUtils = new HibernateUtils();
 		
-		List<Object[]> query =  hbUtils.get("select * from " +  table  +  " where id = "  + id );
+		//HibernateUtils hbUtils = new HibernateUtils();
 		
-
+		
+		SessionFactory sessionFactory=new Configuration().configure().buildSessionFactory();
+		
+		Session sess= sessionFactory.openSession();
+		
+		Transaction tx= (Transaction) sess.beginTransaction();
+		
+		Query query =  sess.createSQLQuery("select * from " +  table  +  " where id = "  + id );
+		
+		List<Object[]> queryList=query.list();
 		Track track = new Track();
 		
-		if (!query.isEmpty()){
+		track.setDetalle(" ESto es un detalle !!! ");
+		
+		if (!queryList.isEmpty()){
 			
-			track.settrackId((int)query.get(0)[0]);
-			track.setName((String)query.get(0)[1]);
-			track.setDetalle((String)query.get(0)[2]);
+			track.setId((int)queryList.get(0)[0]);
+			track.setName((String)queryList.get(0)[1]);
+			track.setDetalle((String)queryList.get(0)[2]);
 		}
+		
 		
 		Gson gson = new Gson();
 		String entity = gson.toJson(track);
