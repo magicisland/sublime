@@ -15,7 +15,7 @@ public class Track {
 	protected int trackId;
 	
 	@Column
-	@Transient
+	
 	protected String name;
 	
 	@Column
