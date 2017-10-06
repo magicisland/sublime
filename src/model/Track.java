@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class Track {
@@ -14,6 +15,7 @@ public class Track {
 	protected int trackId;
 	
 	@Column
+	@Transient
 	protected String name;
 	
 	@Column
