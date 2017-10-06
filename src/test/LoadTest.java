@@ -1,5 +1,7 @@
 package test;
 
+import java.util.List;
+
 import model.Track;
 import utils.HibernateUtils;
 
@@ -16,6 +18,17 @@ public class LoadTest {
 			track.setDetalle(" detalle numero " + i);
 			track.setName("Marcelo " + i);
 			hbUtils.save(track);
+		}
+		
+		List<Object[]> query = hbUtils.get("select * from Track where trackId=2");
+	
+		for (Object[] o:query){
+			Track t=new Track();
+			t.settrackId((int)o[0]);
+			t.setName((String)o[1]);
+			t.setDetalle((String)o[2]);
+			System.out.println(t);
+			
 		}
 	}
 
