@@ -2,6 +2,8 @@ package server;
 
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -17,6 +19,8 @@ import javax.ws.rs.core.Response.Status;
 import com.google.gson.Gson;
 
 import model.Pojo;
+import model.Track;
+import utils.HibernateUtils;
 
 @Path("/servicio")
 
@@ -50,17 +54,27 @@ public class Service {
 	}
 
 	@GET
-	@Path("{id}")
+	@Path("/table/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getProduct(@PathParam("id")int id) {
+	public Response getProduct(@PathParam("table") String table,@PathParam("id")int id) {
 		// TODO Auto-generated method stub
 
-		Pojo pojo = new Pojo();
-		pojo.setId(id);
-		pojo.setName("Marcelo Rodriguez - Software Engineer ");
+		HibernateUtils hbUtils = new HibernateUtils();
+		
+		List<Object[]> query =  hbUtils.get("select * from " +  table  +  " where id = "  + id );
+		
+
+		Track track = new Track();
+		
+		if (!query.isEmpty()){
+			
+			track.settrackId((int)query.get(0)[0]);
+			track.setName((String)query.get(0)[1]);
+			track.setDetalle((String)query.get(0)[2]);
+		}
 		
 		Gson gson = new Gson();
-		String entity = gson.toJson(pojo);
+		String entity = gson.toJson(track);
 		
 		ResponseBuilder responseBuilder = Response.ok(entity);
 		responseBuilder.header("Content-Type", "application/json");
