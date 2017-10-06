@@ -11,7 +11,7 @@ public class Track {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	protected int productId;
+	protected int trackId;
 	
 	@Column
 	protected String name;
@@ -19,12 +19,12 @@ public class Track {
 	@Column
 	protected String detalle;
 
-	public int getProductId() {
-		return productId;
+	public int gettrackId() {
+		return trackId;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void settrackId(int trackId) {
+		this.trackId = trackId;
 	}
 
 	public String getName() {
@@ -45,12 +45,12 @@ public class Track {
 
 	@Override
 	public String toString() {
-		return "Track [productId=" + productId + ", name=" + name + ", detalle=" + detalle + "]";
+		return "Track [trackId=" + trackId + ", name=" + name + ", detalle=" + detalle + "]";
 	}
 
-	public Track(int productId, String name, String detalle) {
+	public Track(int trackId, String name, String detalle) {
 		super();
-		this.productId = productId;
+		this.trackId = trackId;
 		this.name = name;
 		this.detalle = detalle;
 	}
